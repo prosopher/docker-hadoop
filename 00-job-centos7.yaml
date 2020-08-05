@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: $K8S_JOB_NAME-$K8S_JOB_POSTFIX
+spec:
+  completions: $K8S_JOB_COUNTS
+  parallelism: $K8S_JOB_COUNTS
+  template:
+    metadata:
+      labels:
+        app: $K8S_JOB_NAME-$K8S_JOB_POSTFIX
+    spec:
+      subdomain: xo
+      containers:
+      - name: centos
+        image: centos:centos7
+        command: ["sleep"]
+        args: ["infinity"]
+        ports:
+        - containerPort: 80
+      restartPolicy: OnFailure
