@@ -14,10 +14,15 @@ export RESOURCEMANAGER_YAML="01c-resourcemanager.yaml"
 export DATANODEMANAGER_YAML="01d-dnm.yaml"
 export HISTORYSERVER_YAML="01e-historyserver.yaml"
 
+DATANODEMANAGER_COUNTS=3
+
 sed 's/\$K8S_JOB_NAME/'"$K8S_JOB_NAME"'/g; s/\$K8S_JOB_POSTFIX/'"$K8S_JOB_POSTFIX"'/g;' $HADOOP_ENV_YAML | kubectl apply -f -
 sed 's/\$K8S_JOB_NAME/'"$K8S_JOB_NAME"'/g; s/\$K8S_JOB_POSTFIX/'"$K8S_JOB_POSTFIX"'/g;' $NAMENODE_YAML | kubectl apply -f -
+for K8S_DNM_ID in `seq 1 $DATANODEMANAGER_COUNTS`
+do
+  sed 's/\$K8S_JOB_NAME/'"$K8S_JOB_NAME"'/g; s/\$K8S_JOB_POSTFIX/'"$K8S_JOB_POSTFIX"'/g; s/\$K8S_DNM_ID/'"$K8S_DNM_ID"'/g;' $DATANODEMANAGER_YAML | kubectl apply -f -
+done
 sed 's/\$K8S_JOB_NAME/'"$K8S_JOB_NAME"'/g; s/\$K8S_JOB_POSTFIX/'"$K8S_JOB_POSTFIX"'/g;' $RESOURCEMANAGER_YAML | kubectl apply -f -
-sed 's/\$K8S_JOB_NAME/'"$K8S_JOB_NAME"'/g; s/\$K8S_JOB_POSTFIX/'"$K8S_JOB_POSTFIX"'/g;' $DATANODEMANAGER_YAML | kubectl apply -f -
 sed 's/\$K8S_JOB_NAME/'"$K8S_JOB_NAME"'/g; s/\$K8S_JOB_POSTFIX/'"$K8S_JOB_POSTFIX"'/g;' $HISTORYSERVER_YAML | kubectl apply -f -
 
 # 00. service-domain

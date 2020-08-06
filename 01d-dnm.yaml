@@ -16,7 +16,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: $K8S_JOB_NAME-$K8S_JOB_POSTFIX-dnm
+  name: $K8S_JOB_NAME-$K8S_JOB_POSTFIX-dnm-$K8S_DNM_ID
 spec:
   template:
     metadata:
